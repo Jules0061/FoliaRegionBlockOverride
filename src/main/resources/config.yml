@@ -1,0 +1,33 @@
+settings:
+  debug: false
+
+defaults:
+  despawn-time: 5s
+  allow-break: true
+
+blacklist:
+  spawn:
+    enabled: true
+    blocks:
+      - COBWEB
+
+regions:
+  swordzone:
+    enabled: true
+    blocks:
+      COBWEB:
+        despawn-time: 5s
+        allow-break: true
+
+  arena:
+    enabled: true
+    blocks:
+      COBWEB:
+        despawn-time: 3s
+        allow-break: true
+      POWDER_SNOW:
+        despawn-time: 10s
+        allow-break: false
+      SLIME_BLOCK:
+        despawn-time: 30s
+        allow-break: true

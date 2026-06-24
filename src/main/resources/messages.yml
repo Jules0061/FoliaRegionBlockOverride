@@ -1,0 +1,9 @@
+prefix: "&6RegionBlocks &8»"
+
+no-permission: "&cNo permission."
+usage: "&7Usage: &f/regionblock <reload|info>"
+reload-success: "&aConfiguration reloaded."
+reload-failed: "&cReload failed: &7%error%"
+break-denied: "&cYou cannot break this block."
+place-blacklisted: "&cYou cannot place &f%block% &chere."
+invalid-region: "&cRegion not found."

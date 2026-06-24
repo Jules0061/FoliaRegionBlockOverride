@@ -1,0 +1,25 @@
+name: FoliaRegionBlockOverride
+version: '${project.version}'
+main: dev.Jules.foliaRegionBlockOverride.FoliaRegionBlockOverride
+api-version: '1.21'
+load: POSTWORLD
+authors: [ Jules ]
+folia-supported: true
+depend: [ WorldGuard ]
+
+commands:
+  regionblock:
+    description: Manage FoliaRegionBlockOverride.
+    usage: /regionblock <reload|info>
+    aliases: [ rbo, regionblocks ]
+
+permissions:
+  regionblock.admin:
+    description: Access to admin commands and info.
+    default: op
+  regionblock.reload:
+    description: Allows reloading the configuration.
+    default: op
+  regionblock.bypass:
+    description: Ignore plugin placement and break restrictions.
+    default: false
