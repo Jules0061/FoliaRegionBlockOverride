@@ -66,11 +66,6 @@ public final class BlockTrackingManager {
         }
     }
 
-    /**
-     * Fluids must be cleared with a physics update so the surrounding flowing liquid
-     * recedes; otherwise it flows straight back into the cleared block and the block
-     * appears to never despawn.
-     */
     private static boolean needsPhysics(Material material) {
         return material == Material.WATER || material == Material.LAVA;
     }

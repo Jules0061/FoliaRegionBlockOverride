@@ -12,11 +12,6 @@ import org.bukkit.event.player.PlayerBucketEmptyEvent;
 
 import java.util.Map;
 
-/**
- * Fluids such as water, lava and powder snow are placed with a bucket, which fires a
- * {@link PlayerBucketEmptyEvent} instead of a BlockPlaceEvent. This listener mirrors
- * {@link BlockPlaceListener} so those materials can be overridden and tracked too.
- */
 public final class BucketEmptyListener implements Listener {
 
     private final FoliaRegionBlockOverride plugin;

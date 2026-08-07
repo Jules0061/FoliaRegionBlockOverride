@@ -40,7 +40,6 @@ public final class BlockBreakListener implements Listener {
             return;
         }
 
-        // only-break-player-placed: protect anything players did not place (natural terrain).
         if (event.getPlayer().hasPermission("regionblock.bypass")) {
             plugin.placedBlockManager().removePlaced(location);
             return;
