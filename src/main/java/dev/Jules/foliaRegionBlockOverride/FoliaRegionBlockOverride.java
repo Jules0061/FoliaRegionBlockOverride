@@ -6,6 +6,7 @@ import dev.Jules.foliaRegionBlockOverride.config.MessageManager;
 import dev.Jules.foliaRegionBlockOverride.hook.WorldGuardHook;
 import dev.Jules.foliaRegionBlockOverride.listener.BlockBreakListener;
 import dev.Jules.foliaRegionBlockOverride.listener.BlockPlaceListener;
+import dev.Jules.foliaRegionBlockOverride.listener.BucketEmptyListener;
 import dev.Jules.foliaRegionBlockOverride.listener.WorldGuardBreakListener;
 import dev.Jules.foliaRegionBlockOverride.listener.WorldGuardPlaceListener;
 import dev.Jules.foliaRegionBlockOverride.manager.BlockOverrideManager;
@@ -47,6 +48,7 @@ public final class FoliaRegionBlockOverride extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new WorldGuardPlaceListener(this), this);
         getServer().getPluginManager().registerEvents(new WorldGuardBreakListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockPlaceListener(this), this);
+        getServer().getPluginManager().registerEvents(new BucketEmptyListener(this), this);
         getServer().getPluginManager().registerEvents(new BlockBreakListener(this), this);
 
         CommandManager commandManager = new CommandManager(this);
