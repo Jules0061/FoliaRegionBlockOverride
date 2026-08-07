@@ -41,6 +41,20 @@ public final class BlockOverrideManager {
         return null;
     }
 
+    public String onlyBreakPlayerPlacedRegion(Location location) {
+        Set<String> ids = worldGuardHook.regionIds(location);
+        if (ids.isEmpty()) {
+            return null;
+        }
+        for (String id : ids) {
+            RegionConfig region = configManager.region(id);
+            if (region != null && region.enabled() && region.onlyBreakPlayerPlaced()) {
+                return region.name();
+            }
+        }
+        return null;
+    }
+
     public String blacklistedRegion(Location location, Material material) {
         Set<String> ids = worldGuardHook.regionIds(location);
         if (ids.isEmpty()) {

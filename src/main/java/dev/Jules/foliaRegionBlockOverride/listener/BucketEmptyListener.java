@@ -39,6 +39,10 @@ public final class BucketEmptyListener implements Listener {
         Block block = event.getBlock();
         Location location = block.getLocation();
 
+        if (plugin.blockOverrideManager().onlyBreakPlayerPlacedRegion(location) != null) {
+            plugin.placedBlockManager().markPlaced(location);
+        }
+
         if (plugin.blockOverrideManager().blacklistedRegion(location, material) != null) {
             event.setCancelled(true);
             plugin.messageManager().send(event.getPlayer(), "place-blacklisted",

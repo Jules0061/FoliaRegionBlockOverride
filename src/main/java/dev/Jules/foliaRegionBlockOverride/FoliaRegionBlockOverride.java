@@ -11,6 +11,7 @@ import dev.Jules.foliaRegionBlockOverride.listener.WorldGuardBreakListener;
 import dev.Jules.foliaRegionBlockOverride.listener.WorldGuardPlaceListener;
 import dev.Jules.foliaRegionBlockOverride.manager.BlockOverrideManager;
 import dev.Jules.foliaRegionBlockOverride.manager.BlockTrackingManager;
+import dev.Jules.foliaRegionBlockOverride.manager.PlacedBlockManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class FoliaRegionBlockOverride extends JavaPlugin {
@@ -20,6 +21,7 @@ public final class FoliaRegionBlockOverride extends JavaPlugin {
     private WorldGuardHook worldGuardHook;
     private BlockOverrideManager blockOverrideManager;
     private BlockTrackingManager blockTrackingManager;
+    private PlacedBlockManager placedBlockManager;
 
     @Override
     public void onEnable() {
@@ -44,6 +46,7 @@ public final class FoliaRegionBlockOverride extends JavaPlugin {
 
         this.blockOverrideManager = new BlockOverrideManager(this);
         this.blockTrackingManager = new BlockTrackingManager(this);
+        this.placedBlockManager = new PlacedBlockManager();
 
         getServer().getPluginManager().registerEvents(new WorldGuardPlaceListener(this), this);
         getServer().getPluginManager().registerEvents(new WorldGuardBreakListener(this), this);
@@ -87,5 +90,9 @@ public final class FoliaRegionBlockOverride extends JavaPlugin {
 
     public BlockTrackingManager blockTrackingManager() {
         return blockTrackingManager;
+    }
+
+    public PlacedBlockManager placedBlockManager() {
+        return placedBlockManager;
     }
 }

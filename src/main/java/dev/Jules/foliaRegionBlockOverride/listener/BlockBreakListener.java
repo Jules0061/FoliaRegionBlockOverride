@@ -2,6 +2,7 @@ package dev.Jules.foliaRegionBlockOverride.listener;
 
 import dev.Jules.foliaRegionBlockOverride.FoliaRegionBlockOverride;
 import dev.Jules.foliaRegionBlockOverride.model.TrackedBlock;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -17,24 +18,41 @@ public final class BlockBreakListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onBreak(BlockBreakEvent event) {
-        TrackedBlock trackedBlock = plugin.blockTrackingManager().get(event.getBlock().getLocation());
-        if (trackedBlock == null) {
+        Location location = event.getBlock().getLocation();
+        TrackedBlock trackedBlock = plugin.blockTrackingManager().get(location);
+        if (trackedBlock != null) {
+            if (event.getPlayer().hasPermission("regionblock.bypass")) {
+                plugin.blockTrackingManager().untrack(location);
+                plugin.placedBlockManager().removePlaced(location);
+                event.setCancelled(false);
+                return;
+            }
+
+            if (trackedBlock.allowBreak()) {
+                plugin.blockTrackingManager().untrack(location);
+                plugin.placedBlockManager().removePlaced(location);
+                event.setCancelled(false);
+                return;
+            }
+
+            event.setCancelled(true);
+            plugin.messageManager().send(event.getPlayer(), "break-denied");
             return;
         }
 
+        // only-break-player-placed: protect anything players did not place (natural terrain).
         if (event.getPlayer().hasPermission("regionblock.bypass")) {
-            plugin.blockTrackingManager().untrack(event.getBlock().getLocation());
-            event.setCancelled(false);
+            plugin.placedBlockManager().removePlaced(location);
             return;
         }
-
-        if (trackedBlock.allowBreak()) {
-            plugin.blockTrackingManager().untrack(event.getBlock().getLocation());
-            event.setCancelled(false);
+        if (plugin.blockOverrideManager().onlyBreakPlayerPlacedRegion(location) == null) {
             return;
         }
-
+        if (plugin.placedBlockManager().isPlaced(location)) {
+            plugin.placedBlockManager().removePlaced(location);
+            return;
+        }
         event.setCancelled(true);
-        plugin.messageManager().send(event.getPlayer(), "break-denied");
+        plugin.messageManager().send(event.getPlayer(), "break-not-player-placed");
     }
 }

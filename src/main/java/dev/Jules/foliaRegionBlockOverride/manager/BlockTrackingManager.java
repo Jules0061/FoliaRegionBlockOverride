@@ -56,6 +56,7 @@ public final class BlockTrackingManager {
         if (trackedBlock == null) {
             return;
         }
+        plugin.placedBlockManager().removePlaced(location);
         Block block = location.getBlock();
         if (block.getType() == expected) {
             block.setType(Material.AIR, needsPhysics(expected));

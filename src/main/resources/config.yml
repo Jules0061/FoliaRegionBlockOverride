@@ -4,6 +4,9 @@ settings:
 defaults:
   despawn-time: 5s
   allow-break: true
+  # When true, players in a region may only break blocks that players placed;
+  # natural terrain is protected. Can be overridden per region below.
+  only-break-player-placed: false
 
 blacklist:
   spawn:
@@ -14,6 +17,8 @@ blacklist:
 regions:
   ffa:
     enabled: true
+    # Players can only break blocks that were placed by players in this region.
+    only-break-player-placed: true
     blocks:
       # Multiple blocks can share the same rule by separating them with commas.
       COBWEB,WATER:

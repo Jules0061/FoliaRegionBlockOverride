@@ -24,6 +24,7 @@ public final class ConfigManager {
     private volatile boolean debug;
     private volatile long defaultDespawnTicks = 100L;
     private volatile boolean defaultAllowBreak = true;
+    private volatile boolean defaultOnlyBreakPlayerPlaced = false;
 
     public ConfigManager(FoliaRegionBlockOverride plugin) {
         this.plugin = plugin;
@@ -43,6 +44,7 @@ public final class ConfigManager {
         if (defaults != null) {
             this.defaultDespawnTicks = TimeUtil.parseTicks(defaults.getString("despawn-time", "5s"), 100L);
             this.defaultAllowBreak = defaults.getBoolean("allow-break", true);
+            this.defaultOnlyBreakPlayerPlaced = defaults.getBoolean("only-break-player-placed", false);
         }
 
         Map<String, RegionConfig> parsed = new HashMap<>();
@@ -54,6 +56,7 @@ public final class ConfigManager {
                     continue;
                 }
                 boolean enabled = regionSection.getBoolean("enabled", true);
+                boolean onlyBreakPlayerPlaced = regionSection.getBoolean("only-break-player-placed", defaultOnlyBreakPlayerPlaced);
                 Map<Material, BlockRule> rules = new HashMap<>();
                 ConfigurationSection blocksSection = regionSection.getConfigurationSection("blocks");
                 if (blocksSection != null) {
@@ -79,7 +82,7 @@ public final class ConfigManager {
                         }
                     }
                 }
-                parsed.put(regionName.toLowerCase(), new RegionConfig(regionName, enabled, Map.copyOf(rules)));
+                parsed.put(regionName.toLowerCase(), new RegionConfig(regionName, enabled, onlyBreakPlayerPlaced, Map.copyOf(rules)));
             }
         }
 

@@ -21,12 +21,19 @@ public final class BlockPlaceListener implements Listener {
 
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent event) {
+        Block block = event.getBlockPlaced();
+        Material material = block.getType();
+
+        // Remember player-placed blocks so only-break-player-placed regions can tell
+        // them apart from natural terrain. Recorded even for bypass players so that
+        // blocks an admin places remain breakable by everyone.
+        if (plugin.blockOverrideManager().onlyBreakPlayerPlacedRegion(block.getLocation()) != null) {
+            plugin.placedBlockManager().markPlaced(block.getLocation());
+        }
+
         if (event.getPlayer().hasPermission("regionblock.bypass")) {
             return;
         }
-
-        Block block = event.getBlockPlaced();
-        Material material = block.getType();
 
         if (plugin.blockOverrideManager().blacklistedRegion(block.getLocation(), material) != null) {
             event.setCancelled(true);
