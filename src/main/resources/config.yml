@@ -22,7 +22,10 @@ regions:
     blocks:
       # Multiple blocks can share the same rule by separating them with commas.
       COBWEB,WATER:
-        despawn-time: 200s
+        despawn-time: 5s
+        allow-break: true
+      STONE,OBSIDIAN,BLUE_ICE,STONE_PRESSURE_PLATE,STONE_BUTTON:
+        despawn-time: 30s
         allow-break: true
 
   swordzone:
