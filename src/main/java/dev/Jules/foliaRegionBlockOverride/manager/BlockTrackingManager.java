@@ -58,11 +58,20 @@ public final class BlockTrackingManager {
         }
         Block block = location.getBlock();
         if (block.getType() == expected) {
-            block.setType(Material.AIR, false);
+            block.setType(Material.AIR, needsPhysics(expected));
             if (plugin.configManager().debug()) {
                 plugin.getLogger().info("Despawned " + expected + " at " + key + ".");
             }
         }
+    }
+
+    /**
+     * Fluids must be cleared with a physics update so the surrounding flowing liquid
+     * recedes; otherwise it flows straight back into the cleared block and the block
+     * appears to never despawn.
+     */
+    private static boolean needsPhysics(Material material) {
+        return material == Material.WATER || material == Material.LAVA;
     }
 
     public void shutdown() {
@@ -78,7 +87,7 @@ public final class BlockTrackingManager {
             Bukkit.getRegionScheduler().execute(plugin, location, () -> {
                 Block block = location.getBlock();
                 if (block.getType() == expected) {
-                    block.setType(Material.AIR, false);
+                    block.setType(Material.AIR, needsPhysics(expected));
                 }
             });
         }
