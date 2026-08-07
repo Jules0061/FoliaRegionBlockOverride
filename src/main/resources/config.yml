@@ -12,6 +12,14 @@ blacklist:
       - COBWEB
 
 regions:
+  ffa:
+    enabled: true
+    blocks:
+      # Multiple blocks can share the same rule by separating them with commas.
+      COBWEB,WATER:
+        despawn-time: 200s
+        allow-break: true
+
   swordzone:
     enabled: true
     blocks:

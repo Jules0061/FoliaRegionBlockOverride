@@ -57,20 +57,26 @@ public final class ConfigManager {
                 Map<Material, BlockRule> rules = new HashMap<>();
                 ConfigurationSection blocksSection = regionSection.getConfigurationSection("blocks");
                 if (blocksSection != null) {
-                    for (String blockName : blocksSection.getKeys(false)) {
-                        Material material = Material.matchMaterial(blockName);
-                        if (material == null || !material.isBlock()) {
-                            plugin.getLogger().warning("Invalid block '" + blockName + "' in region '" + regionName + "', skipping.");
-                            continue;
-                        }
-                        ConfigurationSection blockSection = blocksSection.getConfigurationSection(blockName);
+                    for (String blockKey : blocksSection.getKeys(false)) {
+                        ConfigurationSection blockSection = blocksSection.getConfigurationSection(blockKey);
                         long despawn = defaultDespawnTicks;
                         boolean allowBreak = defaultAllowBreak;
                         if (blockSection != null) {
                             despawn = TimeUtil.parseTicks(blockSection.getString("despawn-time"), defaultDespawnTicks);
                             allowBreak = blockSection.getBoolean("allow-break", defaultAllowBreak);
                         }
-                        rules.put(material, new BlockRule(material, despawn, allowBreak));
+                        for (String blockName : blockKey.split(",")) {
+                            blockName = blockName.trim();
+                            if (blockName.isEmpty()) {
+                                continue;
+                            }
+                            Material material = Material.matchMaterial(blockName);
+                            if (material == null || !material.isBlock()) {
+                                plugin.getLogger().warning("Invalid block '" + blockName + "' in region '" + regionName + "', skipping.");
+                                continue;
+                            }
+                            rules.put(material, new BlockRule(material, despawn, allowBreak));
+                        }
                     }
                 }
                 parsed.put(regionName.toLowerCase(), new RegionConfig(regionName, enabled, Map.copyOf(rules)));
